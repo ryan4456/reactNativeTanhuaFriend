@@ -42,3 +42,8 @@ export const FRIEND_RECOMMEND = '/friends/recommendation';
  * 探花滑动的列表数据
  */
 export const FRIEND_CARDS = '/friends/cards';
+
+/**
+ * 探花-喜欢、不喜欢
+ */
+export const FRIEND_SELECT = (id, type) => `/friends/like/${id}/${type}`;
