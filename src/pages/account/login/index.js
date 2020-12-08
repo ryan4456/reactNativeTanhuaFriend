@@ -17,8 +17,8 @@ import {
 import { observer, inject } from 'mobx-react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = observer(({ navigation, rootStore }) => {
-    const [phone, setPhone] = useState('18665711978');
+const Login = observer(({ navigation, tokenStore }) => {
+    const [phone, setPhone] = useState('17701304450');
     const [code, setCode] = useState('')
     const [codeText, setCodeText] = useState('重新获取')
     const [phoneValid, setPhoneValid] = useState(true);
@@ -73,7 +73,7 @@ const Login = observer(({ navigation, rootStore }) => {
             console.log(res);
             return;
         }
-        rootStore.setUserInfo(phone, res.data.token, res.data.id);
+        tokenStore.setUserInfo(phone, res.data.token, res.data.id);
         // 用户信息存储到本地存储
         AsyncStorage.setItem(STORAGE_USER_KEY, JSON.stringify({
             mobile: phone,
@@ -127,7 +127,9 @@ const Login = observer(({ navigation, rootStore }) => {
                     onChangeText={setCode}
                     cellCount={6}
                     rootStyle={styles.codeFieldRoot}
-                    keyboardType="number-pad"
+                    keyboardType='default'
+                    autoFocus
+                    onEndEditing={handleCodeComplete}
                     textContentType="oneTimeCode"
                     onSubmitEditing={handleCodeComplete}
                     renderCell={({ index, symbol, isFocused }) => (
@@ -180,5 +182,5 @@ const styles = StyleSheet.create({
 });
 
 export default inject(state => ({
-    rootStore: state.rootStore
+    tokenStore: state.rootStore.tokenStore
 }))(Login)

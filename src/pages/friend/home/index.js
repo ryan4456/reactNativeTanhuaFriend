@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Overlay } from 'teaset';
 import Filter from '../components/Filter';
+import {useNavigation} from '@react-navigation/native';
 
 
 export default function FriendHome() {
@@ -22,17 +23,33 @@ export default function FriendHome() {
     const [city, setCity] = useState('');
     const [education, setEducation] = useState('');
     const [list, setList] = useState([]);
+    const [totalPage, setTotalPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigation = useNavigation();
     // ref
     const overLayRef = useRef(null);
 
     const getList = async () => {
         const res = await request.authGet(FRIEND_RECOMMEND, { page, pagesize, gender, distance, lastLogin, city, education});
-        setList(res.data);
+        setList([...list, ...res.data]);
+        setTotalPage(res.pages);
+        setIsLoading(false);
     }
 
     useEffect(() => {
         getList();
-    }, [gender, distance, lastLogin, city, education])
+    }, [gender, distance, lastLogin, city, education, page])
+
+    // 滚动
+    const handleScroll = ({nativeEvent}) => {
+        // 滚动条触底
+        if(nativeEvent.contentSize.height - nativeEvent.layoutMeasurement.height - nativeEvent.contentOffset.y < 10){
+            if(page < totalPage && !isLoading){
+                setPage(page + 1);
+                setIsLoading(true);
+            }
+        }
+    }
 
     // 筛选条件合并
     const handleFilterComplete = (gender, distance, lastLogin, city, education) => {
@@ -99,7 +116,7 @@ export default function FriendHome() {
         Overlay.show(overlayView);
     }
     return (
-        <ImageHeaderScrollView maxHeight={toDp(150)} minHeight={toDp(80)} headerImage={require('../../../assets/images/profileBackground.jpg')} renderForeground={renderForeground} >
+        <ImageHeaderScrollView onScroll={handleScroll} maxHeight={toDp(150)} minHeight={toDp(80)} headerImage={require('../../../assets/images/profileBackground.jpg')} renderForeground={renderForeground} >
             <View>
                 {/* 访客 */}
                 <Vistors />
@@ -117,9 +134,9 @@ export default function FriendHome() {
                     {/* 列表 */}
                     <View>
                         {list.map((item, index) => (
-                            <View key={index} style={{flexDirection: 'row', paddingTop: toDp(10), paddingBottom: toDp(10), borderBottomWidth: toDp(2), borderBottomColor: '#eee'}}>
+                            <TouchableOpacity onPress={() => navigation.navigate('FriendDetail', {id: item.id})} key={index} style={{flexDirection: 'row', paddingTop: toDp(10), paddingBottom: toDp(10), borderBottomWidth: toDp(2), borderBottomColor: '#eee'}}>
                                 {renderFriendItem(item)}
-                            </View>
+                            </TouchableOpacity>
                         ))}
                     </View>
                 </View>

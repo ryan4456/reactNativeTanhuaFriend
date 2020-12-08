@@ -47,3 +47,35 @@ export const FRIEND_CARDS = '/friends/cards';
  * 探花-喜欢、不喜欢
  */
 export const FRIEND_SELECT = (id, type) => `/friends/like/${id}/${type}`;
+
+/**
+ * 搜附近
+ */
+export const FRIEND_SEARCH = '/friends/search';
+
+/**
+ * 测灵魂问题
+ */
+export const FRIEND_QUESTIONS = '/friends/questions';
+
+/**
+ * 问题列表
+ */
+export const FRIEND_QUESTION_LIST = (id) => `/friends/questionSection/${id}`;
+
+/**
+ * 获取用户信息
+ */
+export const MY_INFO = '/my/userinfo';
+
+/**
+ * 提交答案
+ * @param {number} id 
+ */
+export const FRIEND_QUESTION_SUBMIT = (id) => `/friends/questionsAns/${id}`;
+
+/**
+ * 朋友详情
+ * @param {number} id 
+ */
+export const FRIEND_DETAIL = (id) => `/friends/personalInfo/${id}`;

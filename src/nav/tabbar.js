@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import { friend, friendActive, group, groupActive, my, myActive, message, messageActive } from '../assets/fonts/iconSvg';
@@ -7,11 +7,22 @@ import MessageHome from '../pages/message/home/index';
 import MyHome from '../pages/my/home/index';
 import GroupHome from '../pages/group/home/index';
 import {toDp, dynamicStyle } from '../utils/style';
+import {inject, observer} from 'mobx-react';
+import request from '@/utils/request';
+import { MY_INFO } from '@/utils/pathMap';
+import IM from '@/utils/jmessage';
 
 const { Item } = TabNavigator;
 
-export default function Tabbar() {
-    const [selectedTab, setSelectedTab] = useState('friend');
+const Tabbar = ({userStore}) => {
+    const [selectedTab, setSelectedTab] = useState('group');
+    useEffect(() => {
+        (async () => {
+            const res = await request.authGet(MY_INFO);
+            userStore.setUser(res.data);
+            await IM.login(res.data.guid, res.data.mobile);
+        })();
+    }, [])
     // tabbar list
     const list = [
         { name: '交友', key: 'friend', icon: friend, iconActive: friendActive, component: <FriendHome /> },
@@ -19,9 +30,10 @@ export default function Tabbar() {
         { name: '消息', key: 'message', icon: message, iconActive: messageActive, component: <MessageHome /> },
         { name: '我的', key: 'my', icon: my, iconActive: myActive, component: <MyHome /> },
     ]
+    const tabBarStyle = dynamicStyle(adaptStyle.iPhoneX, adaptStyle.iOS, adaptStyle.android);
     return (
         <View style={{ flex: 1 }}>
-            <TabNavigator tabBarStyle={dynamicStyle(adaptStyle.iPhoneX, adaptStyle.iOS, adaptStyle.android)}>
+            <TabNavigator tabBarStyle={{...tabBarStyle}}>
                 {list.map(item => (
                     <Item key={item.key} selected={selectedTab === item.key}
                         title={item.name}
@@ -37,7 +49,7 @@ export default function Tabbar() {
         </View>
 
     )
-}
+};
 
 const adaptStyle = StyleSheet.create({
     iPhoneX: {
@@ -51,3 +63,7 @@ const adaptStyle = StyleSheet.create({
         height: toDp(50)
     }
 })
+
+export default inject(state => ({
+    userStore: state.rootStore.userStore
+}))(Tabbar);

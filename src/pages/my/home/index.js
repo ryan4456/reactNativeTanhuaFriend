@@ -1,10 +1,26 @@
+import THButton from '@/components/THButton';
+import { toDp } from '@/utils/style';
+import { useNavigation } from '@react-navigation/native';
+import { inject } from 'mobx-react';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { StatusBar, Text, View } from 'react-native';
 
-export default function MyHome() {
+const MyHome = ({tokenStore}) => {
+    const navigation = useNavigation();
+
+    const handleLogout = () => {
+        tokenStore.clearUserInfo();
+        navigation.navigate('Login');
+    }
+    
     return (
         <View>
-            <Text>My Home</Text>
+            <StatusBar />
+            <THButton onPress={handleLogout} styles={{marginTop: 400, alignSelf: 'center', width: '90%', height: toDp(40), borderRadius: toDp(10)}} text='Logout' />
         </View>
     )
 }
+
+export default inject(state => ({
+    tokenStore: state.rootStore.tokenStore
+}))(MyHome);

@@ -38,8 +38,6 @@ export function isIphoneX() {
 }
 
 export function dynamicStyle(iphoneXStyle, iosStyle, androidStyle) {
-    console.log('======');
-    console.log(isIphoneX());
     if (isIphoneX()) {
         return iphoneXStyle;
     } else if (Platform.OS === 'ios') {

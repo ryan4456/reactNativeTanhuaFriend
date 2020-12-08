@@ -7,15 +7,15 @@ import {useNavigation} from '@react-navigation/native'
 export default function FriendHeader() {
     const list = [
         { source: tanhua, name: '探花', path: 'Tanhua', bgColor: '#ff5a20' },
-        { source: nearby, name: '搜附近', path: '', bgColor: '#00acf8' },
-        { source: soul, name: '测灵魂', path: '', bgColor: '#f8c270' },
+        { source: nearby, name: '搜附近', path: 'Search', bgColor: '#00acf8' },
+        { source: soul, name: '测灵魂', path: 'TestSoul', bgColor: '#f8c270' },
     ]
     const navigation = useNavigation();
 
     return (
         <View style={styles.outContainer}>
-            {list.map(item => (
-                <TouchableOpacity style={styles.container} onPress={() => navigation.navigate(item.path)}>
+            {list.map((item, index) => (
+                <TouchableOpacity key={index} style={styles.container} onPress={() => navigation.navigate(item.path)}>
                     <View style={{...styles.iconContainer, backgroundColor: item.bgColor}}>
                         <Image style={styles.icon} source={item.source} />
                     </View>

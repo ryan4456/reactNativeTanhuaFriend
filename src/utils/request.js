@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {BASE_URI} from './pathMap';
 import Toast from './toast';
-import RootStore from '../mobx/index';
+import TokenStore from '../mobx/tokenStore';
 
 const instance = axios.create({
     baseURL: BASE_URI
@@ -25,7 +25,7 @@ export default {
     get: instance.get,
     post: instance.post,
     authPost: (url, data={}, options={}) => {
-        const token = RootStore.token;
+        const token = TokenStore.token;
         const headers = options.headers || {};
         return instance.post(url, data, {
             ...options,
@@ -36,7 +36,7 @@ export default {
         })
     },
     authGet: (url, data={}, options={}) => {
-        const token = RootStore.token;
+        const token = TokenStore.token;
         const headers = options.headers || {};
         return instance.get(url, {
             ...options,

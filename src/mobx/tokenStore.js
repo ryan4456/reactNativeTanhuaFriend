@@ -2,7 +2,7 @@ import {action, makeAutoObservable, observable} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { STORAGE_USER_KEY } from '../utils/constant';
 
-class RootStore {
+class TokenStore {
     mobile = '';
     token = '';
     userId = '';
@@ -12,7 +12,8 @@ class RootStore {
             mobile: observable,
             token: observable,
             userId: observable,
-            setUserInfo: action
+            setUserInfo: action,
+            clearUserInfo: action
         })
     }
 
@@ -20,6 +21,13 @@ class RootStore {
         this.mobile = mobile;
         this.token = token;
         this.userId = userId;
+    }
+
+    clearUserInfo(){
+        this.mobile = '';
+        this.token = '';
+        this.userId = '';
+        AsyncStorage.removeItem(STORAGE_USER_KEY);
     }
 
     async init(){
@@ -32,6 +40,6 @@ class RootStore {
         }
     }
 }
-const rootStore = new RootStore();
-rootStore.init();
-export default rootStore;
+const tokenStore = new TokenStore();
+tokenStore.init();
+export default tokenStore;

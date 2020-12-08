@@ -10,6 +10,9 @@ export default function BestGirl() {
 
     const init = async () => {
         const res = await request.authGet(FRIEND_TODAY_BEST);
+        if(res.code !== '10000' || !res.data){
+            return;
+        }
         setGirl(res.data[0]);
     }
     useEffect(() => {

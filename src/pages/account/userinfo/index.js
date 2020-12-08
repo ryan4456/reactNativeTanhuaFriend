@@ -13,12 +13,12 @@ import THButton from '../../../components/THButton/index';
 import Toast from '../../../utils/toast';
 import ImagePicker from 'react-native-image-crop-picker';
 import { Overlay } from 'teaset';
-import {observer, inject} from 'mobx-react';
+import {inject} from 'mobx-react';
 import request from '../../../utils/request';
 import { ACCOUNT_CHECKHEADIMAGE, ACCOUNT_SAVE } from '../../../utils/pathMap';
 import IM from '../../../utils/jmessage';
 
-const UserInfo = ({rootStore}) => {
+const UserInfo = ({tokenStore}) => {
     const [nickname, setNickname] = useState('');
     const [gender, setGender] = useState('男');
     const [birthday, setBirthday] = useState('');
@@ -39,6 +39,7 @@ const UserInfo = ({rootStore}) => {
             setCity(ad_level_2);
         }
         getLocation();
+        //IM.init();
     }, [])
 
     const dateNow = new Date();
@@ -101,10 +102,11 @@ const UserInfo = ({rootStore}) => {
         if(saveRes.code !== '10000'){
             return;
         }
+        console.log(tokenStore);
         // 5成功-极光注册，登录，跳转到首页
-        const jgRes = await IM.register(rootStore.userId, rootStore.mobile);
+        const jgRes = await IM.register(tokenStore.userId, tokenStore.mobile);
         // 6成功提示
-        overLayRef.close();
+        overLayRef.current.close();
         Toast.smile('操作成功', 2000, 'center');
         setTimeout(() => {
             alert('to index');
@@ -205,5 +207,5 @@ const styles = StyleSheet.create({
 })
 
 export default inject(state => ({
-    rootStore: state.rootStore
+    tokenStore: state.rootStore.tokenStore
 }))(UserInfo)
