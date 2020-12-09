@@ -1,6 +1,7 @@
 import {init, Geolocation} from 'react-native-amap-geolocation';
 import {Platform} from 'react-native';
 import axios from 'axios';
+import Toast from './toast';
 
 class Geo {
     async initGeo() {
@@ -23,12 +24,14 @@ class Geo {
     }
 
     async getCityByLocation() {
+        Toast.showLoading('努力获取中');
         const {longitude, latitude} = await this.getCurrentPosition();
         console.log('longitude', longitude);
         console.log('latitude', latitude);
         const res = await axios.get('https://apis.map.qq.com/ws/geocoder/v1/', {
             params: {location: `${latitude},${longitude}`, key: 'UVJBZ-KTV6J-G3SFT-KTACP-FVR5V-3WF7O'}
         })
+        Toast.hideLoading();
         return Promise.resolve(res.data);
     }
 }

@@ -39,7 +39,6 @@ const UserInfo = ({tokenStore}) => {
             setCity(ad_level_2);
         }
         getLocation();
-        //IM.init();
     }, [])
 
     const dateNow = new Date();

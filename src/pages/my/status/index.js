@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, Image, TouchableOpacity, Modal } from 'react-native';
-import { GROUP_STATUS_LIST, BASE_URI, STATUS_THUMBS_UP, STATUS_LIKE, STATUS_NO_INTEREST } from "@/utils/pathMap";
+import { BASE_URI, STATUS_THUMBS_UP, MY_STATUS } from "@/utils/pathMap";
 import request from "@/utils/request";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { toDp } from "@/utils/style";
 import { ImageViewer } from 'react-native-image-zoom-viewer';
 import date from '@/utils/date';
 import Toast from "@/utils/toast";
-import { ActionSheet } from "teaset";
 import { useNavigation } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 import { convertText, EMOTION_MAP } from "@/components/Emotions/map";
+import THNav from "@/components/THNav";
+import { inject } from "mobx-react";
 
-export default function Recommend() {
-    const navigation = useNavigation();
+function MyStatus({navigation, userStore}) {
     const [page, setPage] = useState(1);
     const [pagesize, setPagesize] = useState(10);
     let isLoading = false;
@@ -22,9 +21,10 @@ export default function Recommend() {
     const [images, setImages] = useState([]);
     const [showAlbum, setShowAlbum] = useState(false);
     const [totalPage, setTotalPage] = useState(1);
+    const {user} = userStore;
 
     const getList = async () => {
-        const res = await request.authGet(GROUP_STATUS_LIST, { page, pagesize });
+        const res = await request.authGet(MY_STATUS, { page, pagesize });
         setList([...list, ...res.data]);
         setTotalPage(res.pages);
     }
@@ -56,37 +56,6 @@ export default function Recommend() {
         setList(_list);
     }
 
-    // 喜欢
-    const handleLike = async (item, index) => {
-        const res = await request.authGet(STATUS_LIKE(item.tid));
-        console.log(res);
-        if (res.data.iscancelstar) {
-            Toast.smile('取消成功');
-        } else {
-            Toast.smile('喜欢成功');
-        }
-        // reset star count 
-        item.like_count = res.data.like_count;
-        const _list = [...list.slice(0, index), item, ...list.slice(index + 1)];
-        setList(_list);
-    }
-
-    // 更多
-    const handleMore = (item) => {
-        const options = [
-            { title: '举报', onPress: () => alert('举报') },
-            { title: '不敢兴趣', onPress: () => handleNoInterest(item) },
-        ]
-        ActionSheet.show(options, { title: '取消' });
-    }
-
-    // 不感兴趣
-    const handleNoInterest = async (item) => {
-        const res = await request.authGet(STATUS_NO_INTEREST(item.tid));
-        Toast.smile('操作成功');
-
-    }
-
     // 渲染flat list item
     const renderItem = (item, index) => {
         return (
@@ -100,34 +69,31 @@ export default function Recommend() {
                         <View style={{ flex: 1, flexDirection: 'row', padding: toDp(5) }}>
                             <View style={{ flex: 4, justifyContent: 'space-around' }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={{ color: '#555' }}>{item.nick_name}</Text>
-                                    <Icon style={{ marginLeft: toDp(5), marginRight: toDp(5) }} name={item.gender === '女' ? 'female' : 'male'} color='#f6c9f2' size={toDp(15)} />
-                                    <Text style={{ color: '#555' }}>{item.age}岁</Text>
+                                    <Text style={{ color: '#555' }}>{user.nick_name}</Text>
+                                    <Icon style={{ marginLeft: toDp(5), marginRight: toDp(5) }} name={user.gender === '女' ? 'female' : 'male'} color='#f6c9f2' size={toDp(15)} />
+                                    <Text style={{ color: '#555' }}>{user.age}岁</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <Text style={{ color: '#555', marginRight: toDp(5) }}>{item.marry}</Text>
+                                    <Text style={{ color: '#555', marginRight: toDp(5) }}>{user.marry}</Text>
                                     <Text style={{ color: '#555', marginRight: toDp(5) }}>|</Text>
-                                    <Text style={{ color: '#555', marginRight: toDp(5) }}>{item.xueli}</Text>
+                                    <Text style={{ color: '#555', marginRight: toDp(5) }}>{user.xueli}</Text>
                                     <Text style={{ color: '#555', marginRight: toDp(5) }}>|</Text>
-                                    <Text style={{ color: '#555', marginRight: toDp(5) }}>{item.agediff < 10 ? '年龄相仿' : '有点代沟'}</Text>
+                                    <Text style={{ color: '#555', marginRight: toDp(5) }}>{user.agediff < 10 ? '年龄相仿' : '有点代沟'}</Text>
                                 </View>
                             </View>
-                            {/* 更多 */}
-                            <TouchableOpacity onPress={() => handleMore(item)}>
-                                <Icon name='ellipsis-v' />
-                            </TouchableOpacity>
+
                         </View>
                     </View>
 
                     {/* 动态内容 */}
                     <View style={{ marginTop: toDp(8), flexDirection: 'row' }}>
                         {convertText(item.content).map((item, index) => {
-                            if(item.text){
+                            if (item.text) {
                                 return <Text key={index} style={{ color: '#666' }}>{item.text}</Text>
                             }
                             let source = EMOTION_MAP[item.image];
-                            if(source){
-                                return <Image style={{width: toDp(10), height: toDp(10)}} key={index} source={source} />
+                            if (source) {
+                                return <Image style={{ width: toDp(10), height: toDp(10) }} key={index} source={source} />
                             }
                             return null;
                         })}
@@ -164,11 +130,7 @@ export default function Recommend() {
                             <Icon name='comment-o' size={toDp(15)} color='#666' />
                             <Text style={{ marginLeft: toDp(3), color: '#666' }}>{item.comment_count}</Text>
                         </TouchableOpacity>
-                        {/* 喜欢 */}
-                        <TouchableOpacity onPress={() => handleLike(item, index)} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Icon name='heart-o' size={toDp(15)} color='#666' />
-                            <Text style={{ marginLeft: toDp(3), color: '#666' }}>{item.like_count}</Text>
-                        </TouchableOpacity>
+                        <Text></Text>
                     </View>
                 </View>
                 {(page >= totalPage && index === list.length - 1) ? <View style={{ alignItems: 'center', marginTop: toDp(10), paddingBottom: toDp(50) }}><Text style={{ color: '#ccc' }}>没有更多数据了</Text></View> : null}
@@ -178,6 +140,7 @@ export default function Recommend() {
 
     return (
         <>
+            <THNav title='我的动态' />
             <FlatList onEndReachedThreshold={0.1} onEndReached={handleScroll}
                 data={list} keyExtractor={item => item.tid + ''}
                 renderItem={({ item, index }) => renderItem(item, index)}></FlatList>
@@ -186,19 +149,10 @@ export default function Recommend() {
             <Modal visible={showAlbum} transparent={true}>
                 <ImageViewer onClick={() => setShowAlbum(false)} imageUrls={images} index={currentIndex} />
             </Modal>
-
-            <TouchableOpacity
-                onPress={() => navigation.navigate('StatusPublish')}
-                style={{ position: 'absolute', right: '10%', bottom: '10%' }}>
-                <LinearGradient colors={['#e1768e', '#a472ca']}
-                    start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
-                    style={{
-                        width: toDp(80), height: toDp(80), borderRadius: toDp(40),
-                        alignItems: 'center', justifyContent: 'center'
-                    }}>
-                    <Text style={{ color: '#fff', fontSize: toDp(22) }}>发布</Text>
-                </LinearGradient>
-            </TouchableOpacity>
         </>
     )
 }
+
+export default inject(state => ({
+    userStore: state.rootStore.userStore
+}))(MyStatus);

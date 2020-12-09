@@ -125,8 +125,6 @@ function FriendDetail({ route, tokenStore, navigation }) {
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
-
-
                 </View>
 
                 {/* 列表 */}

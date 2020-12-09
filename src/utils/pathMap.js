@@ -79,3 +79,79 @@ export const FRIEND_QUESTION_SUBMIT = (id) => `/friends/questionsAns/${id}`;
  * @param {number} id 
  */
 export const FRIEND_DETAIL = (id) => `/friends/personalInfo/${id}`;
+
+
+/**
+ * 圈子模块-推荐动态列表
+ */
+export const GROUP_STATUS_LIST = '/qz/recommend';
+
+/**
+ * 动态点赞
+ * @param {number} id 动态ID
+ */
+export const STATUS_THUMBS_UP = (id) => `/qz/star/${id}`;
+
+/**
+ * 动态喜欢
+ * @param {number} id 动态ID
+ */
+export const STATUS_LIKE = (id) => `/qz/like/${id}`;
+
+/**
+ * 动态，不感兴趣
+ * @param {number} id 动态id
+ */
+export const STATUS_NO_INTEREST = (id) => `/qz/noInterest/${id}`;
+
+/**
+ * 动态评论列表
+ * @param {number} id 动态ID
+ */
+export const COMMENT_LIST = (id) => `/qz/comment/${id}`;
+
+/**
+ * 评论点赞
+ * @param {number} id 评论ID
+ */
+export const COMMENT_THUMBS_UP = id => `/qz/comments/star/${id}`;
+
+/**
+ * 发表评论
+ */
+export const COMMENT_SUBMIT = id => `/qz/comments/submit/${id}`;
+
+/**
+ * 发布动态
+ */
+export const STATUS_SUBMIT = `/qz/trend/submit`;
+
+/**
+ * 动态图片上传
+ */
+export const IMAGES_UPLOAD = '/qz/trends/image/upload';
+
+/**
+ * 最新动态列表
+ */
+export const STATUS_LATEST = '/qz/newtrends';
+
+/**
+ * 统计信息接口
+ */
+export const MY_COUNT = '/my/counts';
+
+/**
+ * 粉丝、喜欢、相互喜欢列表
+ */
+export const LIKE_LIST = '/my/likelist';
+
+/**
+ * 我的动态列表
+ */
+export const MY_STATUS = '/my/trends';
+
+/**
+ * 保存用户信息
+ */
+export const MY_SAVEINFO = '/my/submitUserInfo';

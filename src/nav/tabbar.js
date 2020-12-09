@@ -14,8 +14,13 @@ import IM from '@/utils/jmessage';
 
 const { Item } = TabNavigator;
 
-const Tabbar = ({userStore}) => {
-    const [selectedTab, setSelectedTab] = useState('group');
+const Tabbar = ({userStore, route}) => {
+    const [selectedTab, setSelectedTab] = useState(() =>{
+        if(route && route.params && route.params.pageName){
+            return route.params.pageName;
+        }
+        return 'my';
+    });
     useEffect(() => {
         (async () => {
             const res = await request.authGet(MY_INFO);

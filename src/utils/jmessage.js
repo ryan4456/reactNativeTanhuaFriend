@@ -1,4 +1,5 @@
 import JMessage from "jmessage-react-plugin";
+import Toast from "./toast";
 export default {
     init() {
         JMessage.setDebugMode({enable: true});
@@ -37,6 +38,15 @@ export default {
                 text,
                 extras
             }, res, rej);
+        })
+    },
+    getConversationList(){
+        Toast.showLoading('加载对话')
+        return new Promise((res, rej) => {
+            JMessage.getConversations(response => {
+                Toast.hiding();
+                res(response);
+            }, rej);
         })
     }
 }
