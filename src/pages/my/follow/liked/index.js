@@ -48,8 +48,8 @@ export default function Liked({ list }) {
                         flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
                         alignSelf: 'center'
                     }}>
-                        <Icon name='plus' color='#666' />
-                        <Text style={{ color: 'orange', marginLeft: toDp(10) }}>关注</Text>
+                        <Icon name='plus' color='#666' size={toDp(10)} />
+                        <Text style={{ color: 'orange', marginLeft: toDp(10), fontSize: toDp(10) }}>关注</Text>
                     </TouchableOpacity>
                 </View>
             ))}

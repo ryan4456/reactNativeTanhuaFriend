@@ -76,7 +76,7 @@ export default function Search() {
             <TouchableOpacity  style={{ position: 'absolute', top: ty, left: tx }}>
                 <ImageBackground resizeMode='stretch'
                     style={{ ...style, position: 'relative', alignItems: 'center' }}
-                    source={require('@/assets/images/friend/waterdrop.png')}>
+                    source={{uri: 'waterdrop'}}>
                     <Text numberOfLines={1} style={{ color: '#fff', position: 'absolute', top: -toDp(15) }}>{user.nick_name}</Text>
                     <Image source={{ uri: BASE_URI + user.header }} style={{ borderRadius: width / 2, width: width, height: width }} />
                 </ImageBackground>
@@ -85,7 +85,7 @@ export default function Search() {
     }
 
     return (
-        <ImageBackground style={{ flex: 1, position: 'relative' }} source={require('@/assets/images/friend/radar.gif')}>
+        <ImageBackground style={{ flex: 1, position: 'relative' }} source={{uri: 'radar'}}>
             <StatusBar barStyle='light-content' />
             <TouchableOpacity onPress={showFilter} style={{zIndex: 10000, alignItems: 'center', justifyContent: 'center',backgroundColor: '#fff', top: toDp(100), position: 'absolute', right: toDp(50), width: toDp(50), height: toDp(50), borderRadius: toDp(25) }}>
                 <Icon name='filter' color='#8b4b6c' size={toDp(40)} />

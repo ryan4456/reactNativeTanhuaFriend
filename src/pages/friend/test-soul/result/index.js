@@ -8,7 +8,7 @@ import { View, Text, ImageBackground, ScrollView, Image } from 'react-native';
 export default function TestResult({ route, navigation }) {
     const { params } = route;
     return (
-        <ImageBackground style={{ flex: 1, width: '100%' }} source={require('@/assets/images/friend/result-bg.png')}>
+        <ImageBackground style={{ flex: 1, width: '100%' }} source={{uri: 'result-bg'}}>
             <THNav title='测试结果'></THNav>
             <ImageBackground style={{ flex: 1, width: '100%', position: 'relative' }} resizeMode='contain' source={require('@/assets/images/friend/result.png')}>
                 <Text style={{ position: 'absolute', top: '3%', left: '6%', color: '#ffffff9a', letterSpacing: toDp(8) }}>灵魂基因鉴定单</Text>

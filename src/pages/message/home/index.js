@@ -16,7 +16,7 @@ export default function MessageHome() {
     }
     return (
         <View>
-            <ImageBackground source={require('@/assets/images/nav-bg.png')}
+            <ImageBackground source={{uri: 'nav-bg'}}
                 style={{
                     height: toDp(80), paddingTop: toDp(50),
                     flexDirection: 'row', justifyContent: 'space-between',

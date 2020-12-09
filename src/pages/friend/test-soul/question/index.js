@@ -54,7 +54,7 @@ const Question = ({ route, userStore, navigation }) => {
     return (
         <View>
             <THNav title={params.title} />
-            <ImageBackground source={require('@/assets/tanhua-bg.jpg')} style={{ width: '100%', height: '100%', position: 'relative' }}>
+            <ImageBackground source={{uri: 'tanhua-bg'}} style={{ width: '100%', height: '100%', position: 'relative' }}>
                 {/* 1.0 两侧图标 */}
                 <View style={{ marginTop: toDp(60), flexDirection: 'row', justifyContent: 'space-between' }}>
                     <View style={{

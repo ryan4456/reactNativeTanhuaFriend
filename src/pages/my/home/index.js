@@ -116,7 +116,7 @@ const MyHome = ({ tokenStore, userStore }) => {
             <View style={{ marginTop: toDp(20) }}>
                 <ListItem onPress={() => navigation.navigate('MyStatus')} chevron bottomDivider leftIcon={<Icon name='star' size={toDp(18)} color='#006b18' />} title='我的动态' />
                 <ListItem onPress={() => navigation.navigate('MyVisitors')} chevron bottomDivider leftIcon={<Icon name='eye' size={toDp(18)} color='#ff1015' />} title='谁看过我' />
-                <ListItem chevron bottomDivider leftIcon={<Icon name='gear' size={toDp(18)} color='#997092' />} title='通用设置' />
+                <ListItem onPress={() => navigation.navigate('Setting')} chevron bottomDivider leftIcon={<Icon name='gear' size={toDp(18)} color='#997092' />} title='通用设置' />
                 <ListItem chevron leftIcon={<Icon name='contact' size={toDp(18)} color='#494fa5' />} title='客服在线' />
             </View>
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, FlatList, Image, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity, Modal, TextInput, KeyboardAvoidingView } from 'react-native';
 import { BASE_URI, COMMENT_LIST, COMMENT_SUBMIT, COMMENT_THUMBS_UP } from "@/utils/pathMap";
 import request from "@/utils/request";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -28,7 +28,7 @@ export default function StatusDetail({ route }) {
     const getList = async () => {
         const res = await request.authGet(COMMENT_LIST(params.tid), { page, pagesize });
         setTotalPage(res.pages);
-        if(page === 1){
+        if (page === 1) {
             return setList(res.data);
         }
         setList([...list, ...res.data]);
@@ -59,13 +59,13 @@ export default function StatusDetail({ route }) {
 
     // 完成编辑或点击发送按钮，提交评论
     const handleCommentSubmit = async () => {
-        if(comment === ''){
+        if (comment === '') {
             Toast.smile('评论不能为空');
             return;
         }
-        const res = await request.authPost(COMMENT_SUBMIT(params.tid), {comment});
+        const res = await request.authPost(COMMENT_SUBMIT(params.tid), { comment });
         handleCloseEditing();
-        if(page == 1){
+        if (page == 1) {
             return getList();
         }
         setPage(1);
@@ -186,16 +186,20 @@ export default function StatusDetail({ route }) {
             </Modal>
 
             {/* 评论 */}
-            <Modal onRequestClose={() => handleCloseEditing()} visible={showComment} transparent={true} animationType='slide'>
-                <TouchableOpacity onPress={handleCloseEditing} style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', position: 'relative'}}>
-                    <View style={{position: 'absolute', width: '100%', 
-                    left: 0, bottom: 0, backgroundColor: '#eee', 
-                    paddingBottom: toDp(40), flexDirection: 'row', 
-                    alignItems: 'center', padding: toDp(10)}}>
-                        <TextInput onSubmitEditing={handleCommentSubmit} autoFocus value={comment} onChangeText={value => setComment(value)} placeholder='发表评论' style={{flex: 5, backgroundColor: '#fff', height: toDp(38), borderColor: '#ddd', borderRadius: toDp(10)}}/>
-                        <Text onPress={handleCommentSubmit} style={{flex: 1, textAlign: 'center'}}>发布</Text>
-                    </View>
-                </TouchableOpacity>
+            <Modal onRequestClose={() => handleCloseEditing()} visible={showComment} transparent={true} animationType='fade'>
+                <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+                    <TouchableOpacity onPress={handleCloseEditing} style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', position: 'relative' }}>
+                        <View style={{
+                            position: 'absolute', width: '100%',
+                            left: 0, bottom: 0, backgroundColor: '#eee',
+                            flexDirection: 'row',
+                            alignItems: 'center', padding: toDp(10)
+                        }}>
+                            <TextInput returnKeyType='done' onSubmitEditing={handleCommentSubmit} autoFocus value={comment} onChangeText={value => setComment(value)} placeholder='发表评论' style={{ flex: 5, backgroundColor: '#fff', height: toDp(38), borderColor: '#ddd', borderRadius: toDp(10) }} />
+                            <Text onPress={handleCommentSubmit} style={{ flex: 1, textAlign: 'center' }}>发布</Text>
+                        </View>
+                    </TouchableOpacity>
+                </KeyboardAvoidingView>
             </Modal>
         </View>
     )

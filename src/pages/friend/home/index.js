@@ -116,7 +116,7 @@ export default function FriendHome() {
         Overlay.show(overlayView);
     }
     return (
-        <ImageHeaderScrollView onScroll={handleScroll} maxHeight={toDp(150)} minHeight={toDp(80)} headerImage={require('../../../assets/images/profileBackground.jpg')} renderForeground={renderForeground} >
+        <ImageHeaderScrollView onScroll={handleScroll} maxHeight={toDp(150)} minHeight={toDp(80)} headerImage={{uri: 'profileBackground'}} renderForeground={renderForeground} >
             <View>
                 {/* 访客 */}
                 <Vistors />

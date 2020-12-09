@@ -41,12 +41,13 @@ export default {
         })
     },
     getConversationList(){
-        Toast.showLoading('加载对话')
         return new Promise((res, rej) => {
             JMessage.getConversations(response => {
-                Toast.hiding();
                 res(response);
             }, rej);
         })
+    },
+    logout() {
+        JMessage.logout();
     }
 }

@@ -46,8 +46,8 @@ export default function LikeEachOther({ list, handleLike }) {
                         flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
                         alignSelf: 'center'
                     }} onPress={() => handleLike(index, 'dislike', 'likeEachOther')}>
-                        <Icon name='arrows-h' color='#666' />
-                        <Text style={{ color: '#666', marginLeft: toDp(10) }}>取消关注</Text>
+                        <Icon name='arrows-h' color='#666' size={toDp(10)} />
+                        <Text style={{ color: '#666', marginLeft: toDp(10), fontSize: toDp(10) }}>取消关注</Text>
                     </TouchableOpacity>
                 </View>
             ))}

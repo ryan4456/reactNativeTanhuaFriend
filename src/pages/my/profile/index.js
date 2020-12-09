@@ -10,6 +10,9 @@ import ImagePicker from 'react-native-image-crop-picker';
 import request from '@/utils/request';
 import Toast from '@/utils/toast';
 import DatePicker from 'react-native-datepicker';
+import { ActionSheet } from 'teaset';
+import Picker from 'react-native-picker';
+import CityList from '@/utils/city';
 
 const MyProfile = observer(({ userStore }) => {
 
@@ -56,13 +59,77 @@ const MyProfile = observer(({ userStore }) => {
         setShowNickName(false);
     }
 
+    // 点击性别，显示性别选择
+    const handleShowSex = () => {
+        let items = [
+            { title: '男', disabled: userStore.user.gender === '男', onPress: () => handleChooseSex('男') },
+            { title: '女', disabled: userStore.user.gender === '女', onPress: () => handleChooseSex('女') }
+        ]
+        ActionSheet.show(items, { title: '取消' });
+    }
+
+    // 选择性别
+    const handleChooseSex = (gender) => {
+        saveUser({ gender })
+    }
+
+    // 选择城市
+    const handleShowCity = () => {
+        Picker.init({
+            pickerData: CityList,
+            selectedValue: ['北京', '北京'],
+            pickerCancelBtnText: '取消',
+            pickerConfirmBtnText: '确定',
+            pickerTitleText: '选择城市',
+            wheelFlex: [1, 1, 0],
+            onPickerConfirm: data => {
+                //  ["江西省", "南昌市"]
+                saveUser({city: data[1]})
+            }
+        });
+        Picker.show();
+    }
+
+    // 编辑学历
+    const handleShowXueli = () => {
+        Picker.init({
+            pickerData: ['博士后', '博士', '硕士', '本科', '大专', '高中', '留学', '其他'],
+            selectedValue: [userStore.user.xueli],
+            pickerCancelBtnText: '取消',
+            pickerConfirmBtnText: '确定',
+            pickerTitleText: '选择学历',
+            wheelFlex: [1, 0, 0],
+            onPickerConfirm: data => {
+                saveUser({xueli: data[0]});
+            }
+        });
+        Picker.show();
+    }
+
+    // 编辑婚姻状态
+    const handleShowMarry = () => {
+        Picker.init({
+            pickerData: ['单身', '已婚'],
+            selectedValue: [userStore.user.marry],
+            pickerCancelBtnText: '取消',
+            pickerConfirmBtnText: '确定',
+            pickerTitleText: '选择婚姻状态',
+            wheelFlex: [1, 0, 0],
+            onPickerConfirm: data => {
+                saveUser({marry: data[0]});
+            }
+        });
+        Picker.show();
+    }
+
+
     return (
         <View>
             <THNav title='编辑资料' />
             {/* 用户信息 */}
             <ListItem onPress={handleChooseImage} chevron title='头像' rightElement={<Image source={{ uri: BASE_URI + userStore.user.header }} style={{ height: toDp(40), width: toDp(40), borderRadius: toDp(20) }} />} />
             <ListItem onPress={() => setShowNickName(true)} chevron title='昵称' rightTitle={userStore.user.nick_name} />
-            <View style={{position: 'relative'}}>
+            <View style={{ position: 'relative' }}>
                 <ListItem chevron title='生日' rightTitle={date(userStore.user.birthday).format('YYYY-MM-DD')} />
                 <DatePicker
                     useNativeDriver={true}
@@ -76,15 +143,19 @@ const MyProfile = observer(({ userStore }) => {
                     confirmBtnText='确定'
                     cancelBtnText='取消'
                     display='compact'
-                    onDateChange={(date) => saveUser({birthday: date})}
+                    onDateChange={(date) => saveUser({ birthday: date })}
                 />
             </View>
-            <ListItem chevron title='性别' rightTitle={userStore.user.gender} />
-            <ListItem chevron title='现居城市' rightTitle={userStore.user.city} />
-            <ListItem chevron title='学历' rightTitle={userStore.user.xueli} />
+            <ListItem onPress={handleShowSex} chevron title='性别' rightTitle={userStore.user.gender} />
+            <ListItem onPress={handleShowCity} chevron title='现居城市' rightTitle={userStore.user.city} />
+            <ListItem onPress={handleShowXueli} chevron title='学历' rightTitle={userStore.user.xueli} />
             <ListItem chevron title='月收入' rightTitle={'15-25K'} />
             <ListItem chevron title='行业' rightTitle={'PM'} />
-            <ListItem chevron title='婚姻状态' rightTitle={userStore.user.marry} />
+            <ListItem onPress={handleShowMarry} chevron title='婚姻状态' rightTitle={userStore.user.marry} />
+
+            <Overlay isVisible={showNickName} onBackdropPress={() => setShowNickName(false)}>
+                <TextInput onSubmitEditing={handleSubmitEditing} placeholder='修改昵称' style={{ width: toDp(200) }} />
+            </Overlay>
 
             <Overlay isVisible={showNickName} onBackdropPress={() => setShowNickName(false)}>
                 <TextInput onSubmitEditing={handleSubmitEditing} placeholder='修改昵称' style={{ width: toDp(200) }} />

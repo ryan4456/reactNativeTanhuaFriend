@@ -7,10 +7,15 @@ class UserStore {
         this.user = user;
     }
 
+    clearUserInfo(){
+        this.user = {};
+    }
+
     constructor(){
         makeAutoObservable(this, {
             user: observable,
-            setUser: action
+            setUser: action,
+            clearUserInfo: action
         })
     }
 }

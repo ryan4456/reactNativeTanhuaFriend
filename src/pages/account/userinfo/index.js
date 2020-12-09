@@ -108,7 +108,7 @@ const UserInfo = ({tokenStore}) => {
         overLayRef.current.close();
         Toast.smile('操作成功', 2000, 'center');
         setTimeout(() => {
-            alert('to index');
+            navigation.reset({routes: [{name: 'Tabbar'}]});
         }, 2000);
     }
 

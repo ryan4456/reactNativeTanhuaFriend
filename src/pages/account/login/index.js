@@ -86,7 +86,7 @@ const Login = observer(({ navigation, tokenStore }) => {
             return;
         }
         // old user
-        navigation.navigate("Tabbar");
+        navigation.reset({routes: [{name: 'Tabbar'}]});
     }
 
     const renderLogin = () => {
@@ -152,7 +152,7 @@ const Login = observer(({ navigation, tokenStore }) => {
         <View>
             <StatusBar backgroundColor='transparent' translucent={true} />
             {/* bg image */}
-            <Image style={{ width: '100%', height: toDp(200) }} source={require('../../../assets/images/profileBackground.jpg')} />
+            <Image style={{ width: '100%', height: toDp(200) }} source={{uri: 'profileBackground'}} />
 
             {/* content */}
             <View style={{ padding: toDp(20) }}>

@@ -3,22 +3,22 @@ export const female = '<svg t="1606953034535" class="icon" viewBox="0 0 1024 102
 export const male = '<svg t="1606953093336" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4104" width="200" height="200"><path d="M512 170.666667m-85.333333 0a85.333333 85.333333 0 1 0 170.666666 0 85.333333 85.333333 0 1 0-170.666666 0Z" p-id="4105" fill="#70a449"></path><path d="M640 298.666667H384a42.666667 42.666667 0 0 0-42.666667 42.666666v298.666667h85.333334v298.666667h170.666666v-298.666667h85.333334V341.333333a42.666667 42.666667 0 0 0-42.666667-42.666666z" p-id="4106" fill="#70a449"></path></svg>';
 
 // 交友
-export const friend = require('../images/tabbar/friend.png');
-export const friendActive = require('../images/tabbar/friend-active.png');
+export const friend = {uri: 'friend'};
+export const friendActive = {uri: 'friend-active'};
 
 // 圈子
-export const group = require('../images/tabbar/group.png');
-export const groupActive = require('../images/tabbar/group-active.png');
+export const group = {uri: 'group'};
+export const groupActive = {uri: 'group-active'};
 
 // 消息
-export const message = require('../images/tabbar/message.png');
-export const messageActive = require('../images/tabbar/message-active.png');
+export const message = {uri: 'message'};
+export const messageActive = {uri: 'message-active'};
 
 // 我的
-export const my = require('../images/tabbar/my.png');
-export const myActive = require('../images/tabbar/my-active.png');
+export const my = {uri: 'my'};
+export const myActive = {uri: 'my-active'};
 
 // 探花, 附近, 测灵魂图标
-export const tanhua = require('../images/friend/tanhua.png');
-export const nearby = require('../images/friend/location.png');
-export const soul = require('../images/friend/brain.png');
+export const tanhua = {uri: 'tanhua'};
+export const nearby = {uri: 'location'};
+export const soul = {uri: 'brain'};

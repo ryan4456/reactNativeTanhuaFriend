@@ -19,6 +19,7 @@ import Follow from '@/pages/my/follow';
 import MyStatus from '@/pages/my/status';
 import MyVisitors from '@/pages/my/visitors';
 import MyProfile from '@/pages/my/profile';
+import Setting from '@/pages/my/setting';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,7 @@ const Nav = observer(({tokenStore}) => {
                 <Stack.Screen name='MyStatus' component={MyStatus} />
                 <Stack.Screen name='MyVisitors' component={MyVisitors} />
                 <Stack.Screen name='MyProfile' component={MyProfile} />
+                <Stack.Screen name='Setting' component={Setting} />
             </Stack.Navigator>
         </NavigationContainer>
     )

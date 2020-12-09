@@ -79,6 +79,7 @@ export default function StatusPublish({navigation}) {
         //3 submit all data
         const params = {textContent, location, longitude, latitude, imageContent}
         const res = await request.authPost(STATUS_SUBMIT, params);
+        console.log(res);
         if(res.code === '10000'){
             Toast.smile('发布动态成功');
             setTimeout(() => {
@@ -103,7 +104,6 @@ export default function StatusPublish({navigation}) {
             }
         })
         return Promise.resolve(res.data.map(v=>({headImgShortPath: v.headImgShortPath})))
-
     }
 
     return (

@@ -91,7 +91,7 @@ export default function Tanhua() {
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <THNav title='探花' />
-            <ImageBackground imageStyle={{ height: '100%' }} style={{ height: '60%' }} source={require('../../../assets/tanhua-bg.jpg')}>
+            <ImageBackground imageStyle={{ height: '100%' }} style={{ height: '60%' }} source={{uri: 'tanhua-bg'}}>
                 <Swiper cards={list}
                     ref={swiperRef}
                     onSwipedAll={() => setPage(page + 1)}

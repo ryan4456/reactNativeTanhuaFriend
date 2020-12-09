@@ -12,7 +12,7 @@ export default function CustomeBar(props) {
                 paddingTop: toDp(48),
                 flexDirection: 'row', justifyContent: 'space-evenly'
             }}
-            source={require('@/assets/images/profileBackground.jpg')}>
+            source={{uri: 'profileBackground'}}>
             {tabs.map((item, index) => (
                 <TouchableOpacity onPress={() => goToPage(index)} key={index} style={{ justifyContent: 'center', borderBottomWidth: activeTab === index ? toDp(2) : 0, borderBottomColor: '#fff' }}>
                     <Text style={{ fontSize: activeTab === index ? toDp(26) : toDp(20), color: '#fff' }}>{item}</Text>

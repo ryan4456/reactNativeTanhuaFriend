@@ -40,7 +40,7 @@ export default function TestSoul({ navigation }){
     return (
         <View>
             <THNav title='测灵魂' />
-            <ImageBackground imageStyle={{ height: '100%' }} style={{ height: '50%' }} source={require('@/assets/tanhua-bg.jpg')}>
+            <ImageBackground imageStyle={{ height: '100%' }} style={{ height: '50%' }} source={{uri: 'tanhua-bg'}}>
                 <Swiper cards={list}
                     ref={swiperRef}
                     infinite={true}
